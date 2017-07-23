@@ -25,6 +25,7 @@
 
 import time
 import os
+import sys
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -110,7 +111,10 @@ class WebkitRenderer(QObject):
         image = self.render(res)
         qBuffer = QBuffer()
         image.save(qBuffer, format)
-        file_object.write(qBuffer.buffer().data())
+        if file_object == sys.stdout:
+            file_object.write(qBuffer.buffer().data().decode(sys.stdout.encoding))
+        else:
+            file_object.write(qBuffer.buffer().data())
         return qBuffer.size()
 
     def render_to_bytes(self, res):
@@ -181,7 +185,7 @@ class _WebkitRendererHelper(QObject):
         self._window.setCentralWidget(self._view)
 
         # Import QWebSettings
-        for key, value in self.qWebSettings.iteritems():
+        for key, value in self.qWebSettings.items():
             self._page.settings().setAttribute(key, value)
 
         # Connect required event listeners
@@ -365,9 +369,9 @@ class _WebkitRendererHelper(QObject):
 
 class CustomWebPage(QWebPage):
     def __init__(self, **kwargs):
-    	"""
-    	Class Initializer
-    	"""
+        """
+        Class Initializer
+        """
         super(CustomWebPage, self).__init__()
         self.logger = kwargs.get('logger', None)
         self.ignore_alert = kwargs.get('ignore_alert', True)

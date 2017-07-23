@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-version = '0.8.3'
+version = '0.8.4'
 
 description = "Takes snapshot of webpages using Webkit and Qt4"
 long_description = description
@@ -15,7 +15,7 @@ setup(
     description = description,
     long_description = long_description,
     author = 'Roland Tapken',
-    author_email = 'roland at dau-sicher de',
+    author_email = 'roland@dau-sicher.de',
     packages = ['webkit2png'],
     zip_safe=True,
     include_package_data=True,
